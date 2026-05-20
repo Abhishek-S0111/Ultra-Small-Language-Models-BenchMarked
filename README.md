@@ -65,3 +65,12 @@ Huge Thanks to Mike Veerman.
 6. **Agent Score** = Action x 0.4 + Restraint x 0.3 + Wrong-Tool-Avoidance x 0.3, where Wrong-Tool-Avoidance = (3 - wrong_tool_count) / 3.
 
 ## Final Scores
+### Summary of Model Performance Scores
+
+| Model | Action Score | Restraint Score | Wrong-Tool-Avoidance | Agent Score |
+|:---------------------|:-------------|:----------------|:---------------------|:------------|
+| `qwen2.5:0.5b`       | 0.8          | 0.5             | 1.0                  | 0.77        |
+| `qwen3:0.6b`         | 0.7          | 0.5             | 1.0                  | 0.73        |
+| `qwen3:4b`           | 1.0          | 0.5             | 1.0                  | 0.85        |
+| `ministral-3:3b`     | 0.3          | 1.0             | 1.0                  | 0.72        |
+| `lfm2.5-thinking:1.2b` | 0.7          | 0.5             | 1.0                  | 0.73        |
