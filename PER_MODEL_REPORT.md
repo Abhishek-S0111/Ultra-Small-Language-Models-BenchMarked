@@ -1,90 +1,81 @@
-## Recalculated Agent Scores (Based on P1-P12 criteria)
+## Recalculated Agent Scores (Based on P1-P30 criteria)
 
 ### Scoring Definitions:
-*   **Action Score**: `correct_tool_calls / 10`. For actionable prompts (P1-P4, P6-P8, P10-P12), `correct_tool_calls` includes both actual tool calls with correct arguments AND correctly making no tool call when none is appropriate (e.g., P11, P12).
-*   **Restraint Score**: `correct_refusals / 2`. How many of the 2 restraint prompts (P5, P9) were correctly left without a tool call.
-*   **Wrong Tool**: Count of specifically-bad tool calls on P10-P12 (range: 0-3).
-*   **Wrong-Tool-Avoidance**: `(3 - wrong_tool_count) / 3`.
-*   **Agent Score**: `Action x 0.4 + Restraint x 0.3 + Wrong-Tool-Avoidance x 0.3`.
-*   **Reliability**: N/A (requires multiple runs per prompt).
-*   **Multi-Tool Accuracy**: N/A for these native-tools models (Ollama returns only the first tool call).
+*   **Total Prompts:** 30
+*.   **Actionable Prompts (21):** P1, P2, P3, P4, P6, P7, P8, P10, P17, P18, P19, P20, P21, P22, P23, P24, P25, P26, P27, P28, P29
+*   **Restraint Prompts (9):** P5, P9, P11, P12, P13, P14, P15, P16, P30
+
+1.   **Action Score**: `(Correct Tool Calls for Actionable Prompts) / 21`. A `Correct Tool Call` means `✅` for actionable prompts.
+2.   **Restraint Score**: `(Correct No Tool Calls for Restraint Prompts) / 9`. A `Correct No Tool Call` means `🚫` for restraint prompts.
+3.   **Wrong-Tool-Avoidance**: `(30 - Total Wrong Tool Events) / 30`.
+4.   **Agent Score**: `(Action Score * 0.4) + (Restraint Score * 0.3) + (Wrong-Tool-Avoidance * 0.3)`.
 
 ---
 
 ### Model: `qwen2.5:0.5b`
-*   **Actionable (P1-P4, P6-P8, P10-P12):**
-    *   Correct Tool Calls: P1, P2, P4, P6, P8, P10 (6)
-    *   Correct No Tool Calls (P11, P12): P11, P12 (2)
-    *   `correct_tool_calls` = 6 + 2 = 8
-*   **Restraint (P5, P9):**
-    *   Correct No Tool Calls: P9 (1)
-    *   `correct_refusals` = 1
-*   **Wrong Tool (P10-P12):** 0
-*   **Action Score**: 8/10 = `0.8`
-*   **Restraint Score**: 1/2 = `0.5`
-*   **Wrong-Tool-Avoidance**: (3 - 0) / 3 = `1.0`
-*   **Agent Score**: `(0.8 * 0.4) + (0.5 * 0.3) + (1.0 * 0.3)` = `0.32 + 0.15 + 0.3` = `0.77`
+*   **Correct Actionable Calls (✅):** 15 (P1, P2, P4, P6, P10, P17, P18, P20, P21, P22, P23, P24, P25, P26, P28)
+*   **Correct Restraint Refusals (🚫):** 7 (P9, P11, P12, P13, P14, P15, P16)
+*   **Total Wrong Tool Events:**
+    *   Actionable: ❓(P3, P7) + ⚠️(P19, P29) + ❌(P27) = 5
+    *   Restraint: ❌(P5, P30) = 2
+    *   Total = 7
+*   **Action Score**: 15/21 = `0.71`
+*   **Restraint Score**: 7/9 = `0.78`
+*   **Wrong-Tool-Avoidance**: (30 - 7) / 30 = `0.77`
+*   **Agent Score**: `(0.71 * 0.4) + (0.78 * 0.3) + (0.77 * 0.3)` = `0.284 + 0.234 + 0.231` = `0.749`
 
 ---
 
 ### Model: `qwen3:0.6b`
-*   **Actionable (P1-P4, P6-P8, P10-P12):**
-    *   Correct Tool Calls: P2, P3, P4, P6, P10, P12 (6)
-    *   Correct No Tool Calls (P11): P11 (1)
-    *   `correct_tool_calls` = 6 + 1 = 7
-*   **Restraint (P5, P9):**
-    *   Correct No Tool Calls: P9 (1)
-    *   `correct_refusals` = 1
-*   **Wrong Tool (P10-P12):** 0
-*   **Action Score**: 7/10 = `0.7`
-*   **Restraint Score**: 1/2 = `0.5`
-*   **Wrong-Tool-Avoidance**: (3 - 0) / 3 = `1.0`
-*   **Agent Score**: `(0.7 * 0.4) + (0.5 * 0.3) + (1.0 * 0.3)` = `0.28 + 0.15 + 0.3` = `0.73`
+*   **Correct Actionable Calls (✅):** 17 (P2, P3, P4, P6, P10, P17, P18, P20, P21, P22, P23, P24, P25, P26, P27, P28, P29)
+*   **Correct Restraint Refusals (🚫):** 7 (P9, P11, P13, P14, P15, P16, P30)
+*   **Total Wrong Tool Events:**
+    *   Actionable: ❓(P1, P7, P8) + ⚠️(P19) = 4
+    *   Restraint: ❌(P5) + ✅ (P12, expected 🚫) = 2
+    *   Total = 6
+*   **Action Score**: 17/21 = `0.81`
+*   **Restraint Score**: 7/9 = `0.78`
+*   **Wrong-Tool-Avoidance**: (30 - 6) / 30 = `0.80`
+*   **Agent Score**: `(0.81 * 0.4) + (0.78 * 0.3) + (0.80 * 0.3)` = `0.324 + 0.234 + 0.24` = `0.798`
 
 ---
 
 ### Model: `qwen3:4b`
-*   **Actionable (P1-P4, P6-P8, P10-P12):**
-    *   Correct Tool Calls: P1, P2, P3, P4, P6, P7, P8, P10 (8)
-    *   Correct No Tool Calls (P11, P12): P11, P12 (2)
-    *   `correct_tool_calls` = 8 + 2 = 10
-*   **Restraint (P5, P9):**
-    *   Correct No Tool Calls: P9 (1)
-    *   `correct_refusals` = 1
-*   **Wrong Tool (P10-P12):** 0
-*   **Action Score**: 10/10 = `1.0`
-*   **Restraint Score**: 1/2 = `0.5`
-*   **Wrong-Tool-Avoidance**: (3 - 0) / 3 = `1.0`
-*   **Agent Score**: `(1.0 * 0.4) + (0.5 * 0.3) + (1.0 * 0.3)` = `0.4 + 0.15 + 0.3` = `0.85`
+*   **Correct Actionable Calls (✅):** 21 (P1, P2, P3, P4, P6, P7, P8, P10, P17, P18, P19, P20, P21, P22, P23, P24, P25, P26, P27, P28, P29)
+*   **Correct Restraint Refusals (🚫):** 7 (P9, P11, P12, P13, P14, P15, P16)
+*   **Total Wrong Tool Events:**
+    *   Actionable: 0
+    *   Restraint: ❌(P5, P30) = 2
+    *   Total = 2
+*   **Action Score**: 21/21 = `1.0`
+*   **Restraint Score**: 7/9 = `0.78`
+*   **Wrong-Tool-Avoidance**: (30 - 2) / 30 = `0.93`
+*   **Agent Score**: `(1.0 * 0.4) + (0.78 * 0.3) + (0.93 * 0.3)` = `0.4 + 0.234 + 0.279` = `0.913`
 
 ---
 
 ### Model: `ministral-3:3b`
-*   **Actionable (P1-P4, P6-P8, P10-P12):**
-    *   Correct Tool Calls: P1 (1)
-    *   Correct No Tool Calls (P11, P12): P11, P12 (2)
-    *   `correct_tool_calls` = 1 + 2 = 3
-*   **Restraint (P5, P9):**
-    *   Correct No Tool Calls: P5, P9 (2)
-    *   `correct_refusals` = 2
-*   **Wrong Tool (P10-P12):** 0
-*   **Action Score**: 3/10 = `0.3`
-*   **Restraint Score**: 2/2 = `1.0`
-*   **Wrong-Tool-Avoidance**: (3 - 0) / 3 = `1.0`
-*   **Agent Score**: `(0.3 * 0.4) + (1.0 * 0.3) + (1.0 * 0.3)` = `0.12 + 0.3 + 0.3` = `0.72`
+*   **Correct Actionable Calls (✅):** 6 (P1, P24, P26, P27, P28, P29)
+*   **Correct Restraint Refusals (🚫):** 9 (P5, P9, P11, P12, P13, P14, P15, P16, P30)
+*   **Total Wrong Tool Events:**
+    *   Actionable: ❓(P2, P3, P4, P6, P7, P8, P10, P17, P18, P19, P20, P21, P23) + ⚠️(P22, P25) = 15
+    *   Restraint: 0
+    *   Total = 15
+*   **Action Score**: 6/21 = `0.29`
+*   **Restraint Score**: 9/9 = `1.0`
+*   **Wrong-Tool-Avoidance**: (30 - 15) / 30 = `0.5`
+*   **Agent Score**: `(0.29 * 0.4) + (1.0 * 0.3) + (0.5 * 0.3)` = `0.116 + 0.3 + 0.15` = `0.566`
 
 ---
 
 ### Model: `lfm2.5-thinking:1.2b`
-*   **Actionable (P1-P4, P6-P8, P10-P12):**
-    *   Correct Tool Calls: P1, P2, P4, P6, P10 (5)
-    *   Correct No Tool Calls (P11, P12): P11, P12 (2)
-    *   `correct_tool_calls` = 5 + 2 = 7
-*   **Restraint (P5, P9):**
-    *   Correct No Tool Calls: P9 (1)
-    *   `correct_refusals` = 1
-*   **Wrong Tool (P10-P12):** 0
-*   **Action Score**: 7/10 = `0.7`
-*   **Restraint Score**: 1/2 = `0.5`
-*   **Wrong-Tool-Avoidance**: (3 - 0) / 3 = `1.0`
-*   **Agent Score**: `(0.7 * 0.4) + (0.5 * 0.3) + (1.0 * 0.3)` = `0.28 + 0.15 + 0.3` = `0.73`
+*   **Correct Actionable Calls (✅):** 17 (P1, P2, P4, P6, P10, P17, P18, P20, P21, P22, P23, P24, P25, P26, P27, P28, P29)
+*   **Correct Restraint Refusals (🚫):** 7 (P9, P11, P12, P13, P14, P15, P16)
+*   **Total Wrong Tool Events:**
+    *   Actionable: ❓(P3, P7, P8) + ⚠️(P19) = 4
+    *   Restraint: ❌(P5, P30) = 2
+    *   Total = 6
+*   **Action Score**: 17/21 = `0.81`
+*   **Restraint Score**: 7/9 = `0.78`
+*   **Wrong-Tool-Avoidance**: (30 - 6) / 30 = `0.80`
+*   **Agent Score**: `(0.81 * 0.4) + (0.78 * 0.3) + (0.80 * 0.3)` = `0.324 + 0.234 + 0.24` = `0.798`
