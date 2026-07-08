@@ -1,4 +1,4 @@
-# Ultra-Small Language Models BenchMarked
+# Small Language Models BenchMarked
 
 ## About
 This repository contains a benchmarked report created as part of learning how to operate tool calling using Ollama's native tool calling methods.
